@@ -1,0 +1,171 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account registration and profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique user ID matching request.auth.uid" },
+        "email": { "type": "string", "format": "email", "description": "The registered user email" },
+        "displayName": { "type": "string", "description": "Human-readable display name" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the profile was registered" }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "Resume": {
+      "title": "Resume Data",
+      "description": "Uploaded candidate resume text and its structured parsing",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the owner" },
+        "fileName": { "type": "string", "description": "The original name of the file uploaded" },
+        "content": { "type": "string", "description": "The raw text content extracted from the resume file" },
+        "parsedData": {
+          "type": "object",
+          "description": "JSON structured representation of the parsed candidate profile"
+        },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when resume was parsed" }
+      },
+      "required": ["userId", "content", "createdAt"]
+    },
+    "Analysis": {
+      "title": "Resume Analysis",
+      "description": "AI quality assessment of the resume",
+      "type": "object",
+      "properties": {
+        "resumeId": { "type": "string", "description": "Associated resume ID" },
+        "userId": { "type": "string", "description": "Associated user ID" },
+        "qualityScore": { "type": "integer", "description": "Quality score out of 100" },
+        "missingSkills": { "type": "array", "description": "Identified high-demand skills lacking" },
+        "improvements": { "type": "array", "description": "List of structural recommendations" },
+        "formatting": { "type": "array", "description": "Formatting suggestions" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Created timestamp" }
+      },
+      "required": ["resumeId", "userId", "qualityScore", "createdAt"]
+    },
+    "AtsScore": {
+      "title": "ATS Match Assessment",
+      "description": "ATS compatibility score and match criteria",
+      "type": "object",
+      "properties": {
+        "resumeId": { "type": "string", "description": "Associated resume ID" },
+        "userId": { "type": "string", "description": "Associated user ID" },
+        "score": { "type": "integer", "description": "ATS suitability rating out of 100" },
+        "keywordsMatched": { "type": "array", "description": "Successfully matching keywords" },
+        "missingKeywords": { "type": "array", "description": "Lacking target keywords" },
+        "suggestions": { "type": "array", "description": "Tailored suggestions for high compatibility" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Created timestamp" }
+      },
+      "required": ["resumeId", "userId", "score", "createdAt"]
+    },
+    "JobMatch": {
+      "title": "AI Role Match Recommendations",
+      "description": "Identified role matches for the candidate based on profile similarity",
+      "type": "object",
+      "properties": {
+        "resumeId": { "type": "string", "description": "Associated resume ID" },
+        "userId": { "type": "string", "description": "Associated user ID" },
+        "matches": { "type": "array", "description": "Array of specific company role details and strength factors" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Matched timestamp" }
+      },
+      "required": ["resumeId", "userId", "matches", "createdAt"]
+    },
+    "SkillGap": {
+      "title": "Skill Gap Assessment",
+      "description": "Comprehensive skill bridge analysis and actionable learning plans",
+      "type": "object",
+      "properties": {
+        "resumeId": { "type": "string", "description": "Associated resume ID" },
+        "userId": { "type": "string", "description": "Associated user ID" },
+        "currentSkills": { "type": "array", "description": "Skills the candidate possesses" },
+        "missingSkills": { "type": "array", "description": "Skills candidate is missing" },
+        "learningRoadmap": { "type": "array", "description": "Structured roadmap steps" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Assessment timestamp" }
+      },
+      "required": ["resumeId", "userId", "currentSkills", "missingSkills", "learningRoadmap", "createdAt"]
+    },
+    "HiringProbability": {
+      "title": "Hiring Likelihood Evaluation",
+      "description": "AI analysis of likelihood to get selected for specific companies",
+      "type": "object",
+      "properties": {
+        "resumeId": { "type": "string", "description": "Associated resume ID" },
+        "userId": { "type": "string", "description": "Associated user ID" },
+        "jobTitle": { "type": "string", "description": "Target job title" },
+        "company": { "type": "string", "description": "Target employer" },
+        "probabilityScore": { "type": "integer", "description": "Confidence percentage" },
+        "strengths": { "type": "array", "description": "Strong matching features" },
+        "weaknesses": { "type": "array", "description": "Gaps and vulnerabilities" },
+        "suggestions": { "type": "array", "description": "Mitigating steps" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Evaluation timestamp" }
+      },
+      "required": ["resumeId", "userId", "jobTitle", "company", "probabilityScore", "createdAt"]
+    },
+    "JobOpportunity": {
+      "title": "Seeded Job Opportunity",
+      "description": "Seeded standard market openings for candidate comparisons",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Job title" },
+        "company": { "type": "string", "description": "Company name" },
+        "location": { "type": "string", "description": "Role location" },
+        "skills": { "type": "array", "description": "Target skill sets" },
+        "description": { "type": "string", "description": "Scope of work description" },
+        "salary": { "type": "string", "description": "Salary bracket information" },
+        "type": { "type": "string", "description": "Employment type e.g., Full-time" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Seeded timestamp" }
+      },
+      "required": ["title", "company", "skills", "createdAt"]
+    },
+    "RecommendedOpportunity": {
+      "title": "Recommended Opportunity Match History",
+      "description": "Matches sorted by cosine similarity against seeded opportunities",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Associated user ID" },
+        "resumeId": { "type": "string", "description": "Associated resume ID" },
+        "matches": { "type": "array", "description": "Ranked recommended matches list" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Created timestamp" }
+      },
+      "required": ["userId", "resumeId", "matches", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles indexed by their authentication uid"
+    },
+    "/resumes/{resumeId}": {
+      "schema": "Resume",
+      "description": "Uploaded resume data for structural review"
+    },
+    "/analyses/{analysisId}": {
+      "schema": "Analysis",
+      "description": "Calculated quality reviews of candidate resumes"
+    },
+    "/atsScores/{scoreId}": {
+      "schema": "AtsScore",
+      "description": "ATS keyword compatibility calculations"
+    },
+    "/jobMatches/{matchId}": {
+      "schema": "JobMatch",
+      "description": "AI recommendation of company fit match vectors"
+    },
+    "/skillGaps/{gapId}": {
+      "schema": "SkillGap",
+      "description": "Detailed learning plan assessments to bridge target roles"
+    },
+    "/hiringProbability/{probabilityId}": {
+      "schema": "HiringProbability",
+      "description": "Prediction of recruitment progress and parameters"
+    },
+    "/jobOpportunities/{opportunityId}": {
+      "schema": "JobOpportunity",
+      "description": "Curated benchmark roles database"
+    },
+    "/recommendedOpportunities/{recId}": {
+      "schema": "RecommendedOpportunity",
+      "description": "History of matched benchmark opportunities based on resume skill similarity"
+    }
+  }
+}
